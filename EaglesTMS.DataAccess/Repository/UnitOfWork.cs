@@ -1,12 +1,4 @@
-﻿using EaglesTMS.DataAccess.Data;
-using EaglesTMS.DataAccess.Repository.IRepository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EaglesTMS.DataAccess.Repository
+﻿namespace EaglesTMS.DataAccess.Repository
 {
     public class UnitOfWork :IUnitOfWork
     {

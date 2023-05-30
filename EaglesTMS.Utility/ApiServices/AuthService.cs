@@ -1,8 +1,4 @@
-﻿using EaglesTMS.Models;
-using EaglesTMS.Utility.ApiServices.IServices;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-
+﻿
 namespace EaglesTMS.Utility.ApiServices
 {
     public class AuthService : IAuthService

@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Configuration;
-using MimeKit;
-using MailKit.Net.Smtp;
-using Org.BouncyCastle.Crypto.Macs;
-
-
+﻿
 namespace EaglesTMS.Utility
 {
     public class EmailSender : IEmailSender

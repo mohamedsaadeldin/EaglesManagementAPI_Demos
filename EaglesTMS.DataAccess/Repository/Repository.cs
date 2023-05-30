@@ -1,9 +1,4 @@
-﻿using EaglesTMS.DataAccess.Data;
-using EaglesTMS.DataAccess.Repository.IRepository;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-
-namespace EaglesTMS.DataAccess.Repository
+﻿namespace EaglesTMS.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {

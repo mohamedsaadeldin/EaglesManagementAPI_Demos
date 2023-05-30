@@ -1,8 +1,4 @@
-﻿using EaglesTMS.DataAccess.Data;
-using EaglesTMS.DataAccess.Repository.IRepository;
-using EaglesTMS.Models;
-
-namespace EaglesTMS.DataAccess.Repository
+﻿namespace EaglesTMS.DataAccess.Repository
 {
     public class ApplicationUserRepository : Repository<ApplicationUser>, IApplicationUserRepository
     {

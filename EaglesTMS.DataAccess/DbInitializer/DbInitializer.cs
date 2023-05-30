@@ -1,14 +1,4 @@
-﻿using EaglesTMS.DataAccess.Data;
-using EaglesTMS.Models;
-using EaglesTMS.Utility;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace EaglesTMS.DataAccess.DbInitializer
 {
     public class DbInitializer : IDbInitializer
