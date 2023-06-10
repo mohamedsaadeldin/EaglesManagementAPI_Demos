@@ -1,6 +1,6 @@
 ﻿namespace EaglesTMS.Models
 {
-    public class Nationalities
+    public class Nationalities :BaseEntity
     {
         public int id { get; set; }
         public string iso { get; set; }
