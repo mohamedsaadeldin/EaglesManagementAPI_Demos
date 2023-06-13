@@ -112,11 +112,11 @@ namespace EaglesTMS.DataAccess.Migrations
 
             modelBuilder.Entity("EaglesTMS.Models.Nationalities", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
@@ -141,7 +141,7 @@ namespace EaglesTMS.DataAccess.Migrations
                     b.Property<int>("phonecode")
                         .HasColumnType("int");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Nationalities");
                 });

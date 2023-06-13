@@ -2,7 +2,6 @@
 {
     public class Nationalities :BaseEntity
     {
-        public int id { get; set; }
         public string iso { get; set; }
         public string name { get; set; }
         public string nicename { get; set; }

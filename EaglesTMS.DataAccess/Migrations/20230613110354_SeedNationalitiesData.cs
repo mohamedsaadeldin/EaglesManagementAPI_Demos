@@ -12,7 +12,7 @@ namespace EaglesTMS.DataAccess.Migrations
         {
             migrationBuilder.InsertData(
           table: "Nationalities",
-          columns: new[] { "id", "iso", "name", "nicename", "iso3", "numcode", "phonecode" },
+          columns: new[] { "Id", "iso", "name", "nicename", "iso3", "numcode", "phonecode" },
           values: new object[,]
           {
             {1, "AF", "AFGHANISTAN", "Afghanistan", "AFG", 4, 93},

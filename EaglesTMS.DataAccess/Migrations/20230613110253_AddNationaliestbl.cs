@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EaglesTMS.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class AddNationalitiestbl : Migration
+    public partial class AddNationaliestbl : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace EaglesTMS.DataAccess.Migrations
                 name: "Nationalities",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     iso = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -27,7 +27,7 @@ namespace EaglesTMS.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Nationalities", x => x.id);
+                    table.PrimaryKey("PK_Nationalities", x => x.Id);
                 });
         }
 
