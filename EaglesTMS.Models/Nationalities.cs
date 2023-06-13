@@ -9,6 +9,5 @@
         public string iso3 { get; set; }
         public short numcode { get; set; }
         public int phonecode { get; set; }
-        public DateTime CreationDate { get; set; }
     }
 }
