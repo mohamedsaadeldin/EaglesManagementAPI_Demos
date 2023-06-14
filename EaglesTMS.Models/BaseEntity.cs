@@ -1,8 +1,8 @@
 ﻿namespace EaglesTMS.Models
 {
-    public abstract class BaseEntity
+    public interface IBaseEntity
     {
-        public int Id { get;private set; }
+        public int Id { get; set; }
         public DateTime CreationDate { get; set; }
     }
 }

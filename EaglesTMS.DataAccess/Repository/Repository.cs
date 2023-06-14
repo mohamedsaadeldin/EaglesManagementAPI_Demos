@@ -11,13 +11,12 @@
             //_db.Products.Include(c=>c.Category).Include(c=>c.CoverType)
             dbSet = _db.Set<T>();
         }
-        public void Add(T item)
+        public async Task AddAsync(T item)
         {
             dbSet.Add(item);
         }
 
-
-        public virtual IEnumerable<T> GetAll(string includeProperties = null)
+        public virtual async Task <IEnumerable<T>> GetAllAsync(string includeProperties = null)
         {
             IQueryable<T> query = dbSet;
             if (includeProperties != null)
@@ -30,7 +29,7 @@
             return query.ToList();
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter, string includeProperties = null)
+        public virtual async Task <IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter, string includeProperties = null)
         {
             IQueryable<T> query = dbSet.Where(filter);
             if (includeProperties != null)
@@ -42,7 +41,7 @@
             }
             return query.ToList();
         }
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string includeProperties = null)
+        public async Task <T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, string includeProperties = null)
         {
             IQueryable<T> ts = dbSet.AsQueryable();
             ts = ts.Where(filter);
@@ -54,42 +53,47 @@
                 }
             }
 
-#pragma warning disable CS8603 // Possible null reference return.
+            #pragma warning disable CS8603 // Possible null reference return.
             return ts.FirstOrDefault();
-#pragma warning restore CS8603 // Possible null reference return.
+            #pragma warning restore CS8603 // Possible null reference return.
         }
-        public bool Any()
+        public async Task <bool> AnyAsync()
         {
             return dbSet.Any();
         }
-        public bool Any(Expression<Func<T, bool>> filter)
+        public async Task <bool> AnyAsync(Expression<Func<T, bool>> filter)
         {
             return dbSet.Any(filter);
         }
 
-        public void Remove(T item)
+        public async Task RemoveAsync(T item)
         {
             dbSet.Remove(item);
         }
 
-        public void RemoveRange(IEnumerable<T> items)
+        public async Task RemoveRangeAsync(IEnumerable<T> items)
         {
             dbSet.RemoveRange(items);
         }
 
-        public void AddRange(IEnumerable<T> items)
+        public async Task AddRangeAsync(IEnumerable<T> items)
         {
             dbSet.AddRange(items);
         }
 
-        public int Count()
+        public async Task<int> CountAsync()
         {
             return dbSet.Count();
         }
 
-        public int Count(Expression<Func<T, bool>> filter)
+        public async Task<int> CountAsync(Expression<Func<T, bool>> filter)
         {
             return dbSet.Count(filter);
+        }
+
+        public async Task SaveAsync()
+        {
+            await _db.SaveChangesAsync();
         }
     }
 }

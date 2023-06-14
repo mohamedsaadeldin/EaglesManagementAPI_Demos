@@ -1,8 +1,8 @@
 ﻿namespace EaglesTMS.Models
 {
-    public class Nationalities :BaseEntity
+    public class Nationalities :IBaseEntity
     {
-        public int id { get; set; }
+        public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public string iso { get; set; }
         public string name { get; set; }
         public string nicename { get; set; }

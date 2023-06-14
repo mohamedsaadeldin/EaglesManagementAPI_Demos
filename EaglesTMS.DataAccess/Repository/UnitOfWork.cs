@@ -4,6 +4,7 @@
     {
         public IApplicationUserRepository ApplicationUser { get; private set; }
         public INationalitiesRepository Nationalities { get; private set; }
+        public IJobRepository Jobs { get; private set; }
 
         private readonly ApplicationDbContext _db;
 
@@ -12,6 +13,7 @@
             _db = db;
             ApplicationUser = new ApplicationUserRepository(_db);
             Nationalities = new NationalitiesRepository(_db);
+            Jobs = new JobRepository(_db);
         }
     }
 }
