@@ -14,6 +14,7 @@ namespace EaglesTMS.Utility.ApiServices
             _roleManager = roleManager;
         }
 
+        #region AddRoleAsync
         //public async Task<string> AddRoleAsync(AddRoleModel model)
         //{
         //    var user = await _userManager.FindByIdAsync(model.UserId);
@@ -28,7 +29,9 @@ namespace EaglesTMS.Utility.ApiServices
 
         //    return result.Succeeded ? string.Empty : "Something went wrong";
         //}
+        #endregion
 
+        #region GetTokenAsync
         //public async Task<AuthModel> GetTokenAsync(LogInModel model)
         //{
         //    var authModel = new AuthModel();
@@ -53,7 +56,9 @@ namespace EaglesTMS.Utility.ApiServices
 
         //    return authModel;
         //}
+        #endregion
 
+        #region RegisterAsync
         //public async Task<AuthModel> RegisterAsync(RegisterModel model)
         //{
         //    if (await _userManager.FindByEmailAsync(model.Email) is not null)
@@ -99,7 +104,9 @@ namespace EaglesTMS.Utility.ApiServices
         //    return new AuthModel();
 
         //}
+        #endregion
 
+        #region CreateJWtToken
         //private async Task<JwtSecurityToken?> CreateJwtToken(ApplicationUser user)
         //{
         //    var userClaims = await _userManager.GetClaimsAsync(user);
@@ -138,5 +145,6 @@ namespace EaglesTMS.Utility.ApiServices
         //    }
         //    return null;
         //}
+        #endregion
     }
 }

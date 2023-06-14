@@ -2,6 +2,10 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+Log.Logger = new LoggerConfiguration().MinimumLevel.Error()
+    .WriteTo.File("LogF/myLoggerfile.txt", rollingInterval: RollingInterval.Day).CreateLogger();
+builder.Host.UseSerilog();
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("MyDbConnection")
     ));
