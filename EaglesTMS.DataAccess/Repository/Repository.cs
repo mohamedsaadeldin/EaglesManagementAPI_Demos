@@ -13,7 +13,7 @@
         }
         public async Task AddAsync(T item)
         {
-            dbSet.Add(item);
+           await dbSet.AddAsync(item);
         }
 
         public virtual async Task <IEnumerable<T>> GetAllAsync(string includeProperties = null)
@@ -26,7 +26,7 @@
                     query = query.Include(includeProp);
                 }
             }
-            return query.ToList();
+            return  await query.ToListAsync();
         }
 
         public virtual async Task <IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter, string includeProperties = null)
@@ -39,7 +39,7 @@
                     query = query.Include(includeProp);
                 }
             }
-            return query.ToList();
+            return await query.ToListAsync();
         }
         public async Task <T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, string includeProperties = null)
         {
