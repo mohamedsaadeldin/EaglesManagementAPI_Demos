@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using EaglesTMS.Models;
 using EaglesTMS.Models.DTO;
+using EaglesTMS.Models.DTO.JobDto;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -48,7 +51,7 @@ namespace EaglesTMS.Controllers
             }
             return _response;
         }
-        [HttpGet("{id:int}", Name = "GetById")]
+        [HttpGet("{id:int}", Name = "GetJob")]
         public async Task<ActionResult<APIResponse>> GetJob(int id)
         {
             try
@@ -71,6 +74,41 @@ namespace EaglesTMS.Controllers
                 _response.Result = _mapper.Map<JobDto>(job);
                 _response.StatusCode = HttpStatusCode.OK;
                 return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages
+                     = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [HttpPost]
+        public async Task<ActionResult<APIResponse>> CreateJob([FromBody] CreateDto createDTO)
+        {
+            try
+            {
+                if (await _dbJobs.Jobs.GetAllAsync(u => u.JobName.ToLower() == createDTO.JobName.ToLower()) != null)
+                {
+                    ModelState.AddModelError("ErrorMessages", "Job already Exists!");
+                    return BadRequest(ModelState);
+                }
+                if (createDTO is null)
+                {
+                    _response.StatusCode = HttpStatusCode.NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Invalid Job" };
+                    return BadRequest(_response);
+                }
+                Job job = _mapper.Map<Job>(createDTO);
+                await _dbJobs.Jobs.AddAsync(job);
+                _response.Result = _mapper.Map<JobDto>(job);
+                _response.StatusCode = HttpStatusCode.Created;
+                return CreatedAtRoute("GetJob", new { id = job.Id }, _response);
             }
             catch (Exception ex)
             {

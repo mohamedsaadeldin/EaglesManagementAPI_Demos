@@ -28,7 +28,7 @@ namespace EaglesTMS.DataAccess.Data
             return result;
         }
 
-        public DbSet<Nationalities> Nationalities { get; set; }
-        public DbSet<Job> Jobs { get; set; }
+        //public DbSet<Nationalities> Nationalities { get; set; }
+        //public DbSet<Job> Jobs { get; set; }
     }
 }

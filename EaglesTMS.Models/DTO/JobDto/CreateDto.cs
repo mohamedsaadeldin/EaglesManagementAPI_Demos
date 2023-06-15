@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace EaglesTMS.Models.DTO.JobDto
 {
-    public class JobDto
+    public class CreateDto
     {
-        //public int Id { get; set; }
-        [Required]
-        [MaxLength(30)]
         public string JobName { get; set; }
-        [Required]
         public int NumberOfAssignees { get; set; }
     }
 }
