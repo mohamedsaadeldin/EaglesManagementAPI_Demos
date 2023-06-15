@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace EaglesTMS.Models.DTO.JobDto
 {
-    public class JobDto
+    public class UpdateDto
     {
         public int Id { get; set; }
-        [Required]
-        [MaxLength(30)]
+        [Required(ErrorMessage = "Job Name field is required.")]
+        [MaxLength(10), MinLength(3)]
         public string JobName { get; set; }
-        [Required]
-        public int NumberOfAss { get; set; }
     }
 }

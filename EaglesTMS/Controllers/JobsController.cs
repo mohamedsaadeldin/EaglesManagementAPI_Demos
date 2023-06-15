@@ -84,31 +84,60 @@ namespace EaglesTMS.Controllers
             return _response;
         }
 
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [HttpPost]
         public async Task<ActionResult<APIResponse>> CreateJob([FromBody] CreateDto createDTO)
         {
+
             try
             {
-                if (await _dbJobs.Jobs.GetAllAsync(u => u.JobName.ToLower() == createDTO.JobName.ToLower()) != null)
+                //if (await _dbJobs.Jobs.GetAllAsync(u => u.JobName.ToLower() == createDTO.JobName.ToLower()) != null)
+                //{
+                //    ModelState.AddModelError("ErrorMessages", "Job already Exists!");
+                //    return BadRequest(ModelState);
+                //}
+                if (createDTO == null)
                 {
-                    ModelState.AddModelError("ErrorMessages", "Job already Exists!");
-                    return BadRequest(ModelState);
-                }
-                if (createDTO is null)
-                {
-                    _response.StatusCode = HttpStatusCode.NotFound;
+                    _response.StatusCode = HttpStatusCode.NoContent;
                     _response.IsSuccess = false;
-                    _response.ErrorMessages = new List<string>() { "Invalid Job" };
+                    _response.ErrorMessages = new List<string>() { "Invalid Id." };
                     return BadRequest(_response);
                 }
-                Job job = _mapper.Map<Job>(createDTO);
+                var job = _mapper.Map<Job>(createDTO);
                 await _dbJobs.Jobs.AddAsync(job);
+                await _dbJobs.Jobs.SaveAsync();
                 _response.Result = _mapper.Map<JobDto>(job);
                 _response.StatusCode = HttpStatusCode.Created;
                 return CreatedAtRoute("GetJob", new { id = job.Id }, _response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+        [HttpPut("{id:int}", Name = "UpdateJob")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> UpdateJob (UpdateDto updateDto)
+        {
+            try
+            {
+                if (updateDto == null)
+                {
+                    return BadRequest();
+                }
+                await _dbJobs.Jobs.GetFirstOrDefaultAsync(j => j.Id == updateDto.Id);
+                Job job = _mapper.Map<Job>(updateDto);
+                await _dbJobs.Jobs.UpdateAsync(job);
+                await _dbJobs.Jobs.SaveAsync();
+                _response.StatusCode = HttpStatusCode.NoContent;
+                _response.IsSuccess = true;
+                return Ok(_response);
             }
             catch (Exception ex)
             {

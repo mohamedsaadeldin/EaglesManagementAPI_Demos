@@ -11,6 +11,9 @@ namespace EaglesTMS.Utility
         {
             CreateMap<JobDto, Job>().ReverseMap();
             CreateMap<CreateDto, Job>().ReverseMap();
+            CreateMap<UpdateDto, Job>().ReverseMap();
+
+
         }
     }
 }

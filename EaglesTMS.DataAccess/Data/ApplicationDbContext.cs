@@ -1,18 +1,23 @@
 ﻿
 
+using Microsoft.EntityFrameworkCore;
+
 namespace EaglesTMS.DataAccess.Data
 {
-    public class ApplicationDbContext 
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-    //    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-    //````{
-    //    }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+        #region OnModelOld
         //protected override void OnModelCreating(ModelBuilder builder)
         //{
         //    base.OnModelCreating(builder);
         //    builder.Entity<ApplicationUser>().Property(x => x.CreationDate).HasDefaultValue(Convert.ToDateTime("1/1/2023"));
         //    builder.Entity<Nationalities>().Property(x => x.CreationDate).HasDefaultValue(Convert.ToDateTime("1/1/2023"));
         //}
+        #endregion
+        #region SaveChangesAsync
         //public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         //{
         //    foreach (var entry in ChangeTracker.Entries<IBaseEntity>().ToList())
@@ -27,7 +32,15 @@ namespace EaglesTMS.DataAccess.Data
         //    var result = await base.SaveChangesAsync(cancellationToken);
         //    return result;
         //}
-        //public DbSet<Nationalities> Nationalities { get; set; }
-        //public DbSet<Job> Jobs { get; set; }
+        #endregion
+        public DbSet<Nationalities> Nationalities { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Job>()
+            .Property(e => e.CreationDate)
+            .HasDefaultValue(DateTime.UtcNow);
+            base.OnModelCreating(builder);
+        }
     }
 }

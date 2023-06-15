@@ -19,10 +19,10 @@ namespace EaglesTMS.DataAccess.DbInitializer
 
         public void Initialize()
         {
-            //if (_db.Database.GetPendingMigrations().Count() > 0)
-            //{
-            //    _db.Database.Migrate();
-            //}
+            if (_db.Database.GetPendingMigrations().Count() > 0)
+            {
+                _db.Database.Migrate();
+            }
             if (!_roleManager.RoleExistsAsync(SD.EaglesAdmins).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(SD.EaglesAdmins)).GetAwaiter().GetResult();

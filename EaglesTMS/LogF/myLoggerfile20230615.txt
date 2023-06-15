@@ -94,3 +94,19 @@ CREATE TABLE [AspNetRoles] (
     [ConcurrencyStamp] nvarchar(max) NULL,
     CONSTRAINT [PK_AspNetRoles] PRIMARY KEY ([Id])
 );
+2023-06-15 15:52:56.183 +03:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Jobs] (
+    [Id] int NOT NULL IDENTITY,
+    [JobName] nvarchar(max) NOT NULL,
+    [NumberOfAss] int NOT NULL,
+    [CreationDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Jobs] PRIMARY KEY ([Id])
+);
+2023-06-15 15:52:56.539 +03:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE [Jobs] (
+    [Id] int NOT NULL IDENTITY,
+    [JobName] nvarchar(max) NOT NULL,
+    [NumberOfAss] int NOT NULL,
+    [CreationDate] datetime2 NOT NULL,
+    CONSTRAINT [PK_Jobs] PRIMARY KEY ([Id])
+);

@@ -8,7 +8,7 @@
         public Repository(ApplicationDbContext db)
         {
             _db = db;
-            //_db.Products.Include(c=>c.Category).Include(c=>c.CoverType)
+            //_db.Products.Include(c => c.Category).Include(c => c.CoverType);
             dbSet = _db.Set<T>();
         }
         public async Task AddAsync(T item)
