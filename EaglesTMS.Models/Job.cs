@@ -1,4 +1,4 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EaglesTMS.Models
 {
@@ -11,5 +11,6 @@ namespace EaglesTMS.Models
         public string JobName { get; set; }
         public int NumberOfAss { get; set; }
         public DateTime CreationDate { get ; set; }
+        public bool IsDeleted { get ; set ; }
     }
 }

@@ -10,5 +10,6 @@
         public short numcode { get; set; }
         public int phonecode { get; set; }
         public DateTime CreationDate { get; set; }
+        public bool IsDeleted { get ; set ; }
     }
 }

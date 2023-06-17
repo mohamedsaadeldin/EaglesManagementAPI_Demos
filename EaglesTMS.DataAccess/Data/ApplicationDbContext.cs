@@ -1,8 +1,4 @@
-﻿
-
-using Microsoft.EntityFrameworkCore;
-
-namespace EaglesTMS.DataAccess.Data
+﻿namespace EaglesTMS.DataAccess.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -33,8 +29,6 @@ namespace EaglesTMS.DataAccess.Data
         //    return result;
         //}
         #endregion
-        public DbSet<Nationalities> Nationalities { get; set; }
-        public DbSet<Job> Jobs { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Job>()
@@ -42,5 +36,8 @@ namespace EaglesTMS.DataAccess.Data
             .HasDefaultValue(DateTime.UtcNow);
             base.OnModelCreating(builder);
         }
+        public DbSet<Nationalities> Nationalities { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Sensor> Sensors { get; set; }
     }
 }

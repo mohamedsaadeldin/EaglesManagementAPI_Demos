@@ -52,48 +52,72 @@
                     ts = ts.Include(includeProp);
                 }
             }
-
             #pragma warning disable CS8603 // Possible null reference return.
-            return ts.FirstOrDefault();
+            return await ts.FirstOrDefaultAsync();
             #pragma warning restore CS8603 // Possible null reference return.
         }
         public async Task <bool> AnyAsync()
         {
-            return dbSet.Any();
+            return await dbSet.AnyAsync();
         }
         public async Task <bool> AnyAsync(Expression<Func<T, bool>> filter)
         {
-            return dbSet.Any(filter);
+            return await dbSet.AnyAsync(filter);
         }
 
         public async Task RemoveAsync(T item)
         {
             dbSet.Remove(item);
+            await _db.SaveChangesAsync();
         }
 
         public async Task RemoveRangeAsync(IEnumerable<T> items)
         {
             dbSet.RemoveRange(items);
+            await _db.SaveChangesAsync();
         }
 
         public async Task AddRangeAsync(IEnumerable<T> items)
         {
             dbSet.AddRange(items);
+            await _db.SaveChangesAsync();
         }
 
         public async Task<int> CountAsync()
         {
-            return dbSet.Count();
+            return await dbSet.CountAsync();
         }
 
         public async Task<int> CountAsync(Expression<Func<T, bool>> filter)
         {
-            return dbSet.Count(filter);
+            return await dbSet.CountAsync(filter);
         }
 
         public async Task SaveAsync()
         {
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null)
+        {
+            IQueryable<T> query = dbSet;
+            if (!tracked)
+            {
+                query = query.AsNoTracking();
+            }
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            if (includeProperties != null)
+            {
+                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+            return await query.FirstOrDefaultAsync();
         }
     }
 }

@@ -8,12 +8,12 @@ namespace EaglesTMS.DataAccess.Repository
         private readonly ApplicationDbContext _context;
         public JobRepository(ApplicationDbContext db) : base(db)
         {
+            _context = db;
         }
         public async Task UpdateAsync(Job job)
         {
-            _context.Jobs.Update(job);
+            _context.Update(job);
             await _context.SaveChangesAsync();
         }
-
     }
 }

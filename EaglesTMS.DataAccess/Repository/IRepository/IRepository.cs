@@ -6,6 +6,7 @@ namespace EaglesTMS.DataAccess.Repository.IRepository
     {
         Task<IEnumerable<T>> GetAllAsync(string includeProperties = null);
         Task <IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> filter, string includeProperties = null);
+        Task<T> GetAsync(Expression<Func<T, bool>> filter = null, bool tracked = true, string? includeProperties = null);
         Task<T> GetFirstOrDefaultAsync(Expression<Func<T, bool>> filter, string includeProperties = null);
         Task AddAsync(T item);
         Task AddRangeAsync(IEnumerable<T> items);
