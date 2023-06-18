@@ -150,8 +150,9 @@ namespace EaglesTMS.Controllers
             return _response;
         }
 
-        [HttpPut("{id:int}", Name = "IsDeleted")]
+        //================To Do===================
 
+        [HttpPut("{id:int}", Name = "IsDeleted")]
         public async Task<ActionResult<APIResponse>> DeleteJob(int id, [FromBody] DeleteJobDto model)
         {
             try
