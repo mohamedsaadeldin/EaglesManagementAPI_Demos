@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace EaglesTMS.Models.DTO.JobDto
 {
-    public class JobDto
+    public class DeleteJobDto
     {
         public int Id { get; set; }
-        [Required]
-        public string JobName { get; set; }
-        [Required]
-        public int NumberOfAss { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

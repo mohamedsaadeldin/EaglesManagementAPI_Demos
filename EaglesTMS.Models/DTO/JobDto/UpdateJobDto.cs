@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EaglesTMS.Models.DTO.JobDto
 {
-    public class UpdateDto
+    public class UpdateJobDto
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Job Name field is required.")]

@@ -1,6 +1,6 @@
 ﻿namespace EaglesTMS.Models.DTO.SensorTybeDto
 {
-    public class CreateDto
+    public class CreateSensorDto
     {
         [Required]
         [MaxLength(20),MinLength(3)]

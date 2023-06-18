@@ -11,12 +11,13 @@ namespace EaglesTMS.Utility
         public MappingConfig()
         {
             CreateMap<JobDto, Job>().ReverseMap();
-            CreateMap<Models.DTO.JobDto.CreateDto, Job>().ReverseMap();
-            CreateMap<UpdateDto, Job>().ReverseMap();
-            CreateMap<Sensor, SensorDto>().ReverseMap();
-            CreateMap<Sensor, Models.DTO.SensorTybeDto.CreateDto>().ReverseMap();
+            CreateMap<CreateJobDto, Job>().ReverseMap();
+            CreateMap<UpdateSensorDto, Job>().ReverseMap();
+            CreateMap<DeleteJobDto, Job>().ReverseMap();
 
-
+            CreateMap<SensorDto, Sensor>().ReverseMap();
+            CreateMap<CreateSensorDto, Sensor>().ReverseMap();
+            CreateMap<UpdateSensorDto, Sensor>().ReverseMap();
         }
     }
 }

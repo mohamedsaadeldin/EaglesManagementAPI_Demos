@@ -1,9 +1,5 @@
 ﻿using AutoMapper;
-using EaglesTMS.Models;
-using EaglesTMS.Models.DTO;
 using EaglesTMS.Models.DTO.JobDto;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -92,7 +88,7 @@ namespace EaglesTMS.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> CreateJob([FromBody] CreateDto createDTO)
+        public async Task<ActionResult<APIResponse>> CreateJob([FromBody] CreateJobDto createDTO)
         {
             try
             {
@@ -123,25 +119,54 @@ namespace EaglesTMS.Controllers
             return _response;
         }
 
-        [HttpPut("{id:int}", Name = "UpdateJob")]
+        [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateJob (int id,[FromBody] UpdateDto updateDto)
+        public async Task<ActionResult<APIResponse>> UpdateJob(int id, [FromBody] UpdateJobDto model)
         {
             try
             {
-                if (updateDto == null || id !=updateDto.Id )
+                if (model == null || id != model.Id)
                 {
-                    ModelState.AddModelError("ErrorMessages", "Job ID is Invalid!");
+                    ModelState.AddModelError("ErrorMessages", "Sensor ID is Invalid!");
                     return BadRequest(ModelState);
                 }
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(updateDto);
+                    return BadRequest(model);
                 }
-                Job job = _mapper.Map<Job>(updateDto);
-                await _unitOfWork.Jobs.UpdateAsync(job);
+                Job job = _mapper.Map<Job>(model);
+                await _unitOfWork.Jobs.UpdateJobAsync(job);
+                _response.StatusCode = HttpStatusCode.NoContent;
+                _response.IsSuccess = true;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpPut("{id:int}", Name = "IsDeleted")]
+
+        public async Task<ActionResult<APIResponse>> DeleteJob(int id, [FromBody] DeleteJobDto model)
+        {
+            try
+            {
+                if (model == null || id != model.Id)
+                {
+                    ModelState.AddModelError("ErrorMessages", "Sensor ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(model);
+                }
+                Job job = _mapper.Map<Job>(model);
+                await _unitOfWork.Jobs.DeleteJobAsync(job);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;
                 return Ok(_response);

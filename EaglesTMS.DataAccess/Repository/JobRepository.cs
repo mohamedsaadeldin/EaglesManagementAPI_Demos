@@ -10,7 +10,14 @@ namespace EaglesTMS.DataAccess.Repository
         {
             _context = db;
         }
-        public async Task UpdateAsync(Job job)
+
+        public async Task DeleteJobAsync(Job job)
+        {
+            _context.Jobs.Update(job);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateJobAsync(Job job)
         {
             _context.Update(job);
             await _context.SaveChangesAsync();

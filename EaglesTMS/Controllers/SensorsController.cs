@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EaglesTMS.Models;
 using EaglesTMS.Models.DTO.JobDto;
 using EaglesTMS.Models.DTO.SensorTybeDto;
 using Microsoft.AspNetCore.Http;
@@ -89,7 +90,7 @@ namespace EaglesTMS.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> CreateSensor([FromBody] Models.DTO.SensorTybeDto.CreateDto model)
+        public async Task<ActionResult<APIResponse>> CreateSensor([FromBody] CreateSensorDto model)
         {
             try
             {
@@ -105,12 +106,43 @@ namespace EaglesTMS.Controllers
                     _response.ErrorMessages = new List<string>() { "Invalid Id." };
                     return BadRequest(_response);
                 }
-                var sensor = _mapper.Map<Sensor>(model);
-                await _unitOfWork.Sensors.AddAsync(sensor);
-                await _unitOfWork.Sensors.SaveAsync();
-                _response.Result = _mapper.Map<Sensor>(model);
+                var sens = _mapper.Map<Sensor>(model);
+                await _unitOfWork.Sensors.AddAsync(sens);
+                await _unitOfWork.Jobs.SaveAsync();
+                _response.Result = _mapper.Map<CreateSensorDto>(sens);
                 _response.StatusCode = HttpStatusCode.Created;
-                return CreatedAtRoute("GetSensor", new { id = sensor.Id }, _response);
+                return CreatedAtRoute("GetSensor", new { id = sens.Id }, _response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpPut("{id:int}", Name = "UpdateSensor")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> UpdateSensor(int id, [FromBody] UpdateSensorDto model)
+        {
+            try
+            {
+                if (model == null || id != model.Id)
+                {
+                    ModelState.AddModelError("ErrorMessages", "Sensor ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(model);
+                }
+                Sensor sensor = _mapper.Map<Sensor>(model);
+                await _unitOfWork.Sensors.UpdateSensor(sensor);
+                _response.StatusCode = HttpStatusCode.NoContent;
+                _response.IsSuccess = true;
+                return Ok(_response);
             }
             catch (Exception ex)
             {

@@ -3,8 +3,8 @@
     public class SensorDto
     {
         public int Id { get; set; }
-        public DateTime CreationDate { get; set; }
-        public bool IsDeleted { get; set; }
+        [Required]
         public string TypeName { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }
