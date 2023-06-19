@@ -13,6 +13,7 @@ namespace EaglesTMS.DataAccess.Repository
 
         public async Task DeleteJobAsync(Job job)
         {
+            job.IsDeleted = true;
             _context.Jobs.Update(job);
             await _context.SaveChangesAsync();
         }

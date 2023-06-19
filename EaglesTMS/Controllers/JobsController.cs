@@ -28,7 +28,7 @@ namespace EaglesTMS.Controllers
         {
             try
             {
-                IEnumerable<Job> jobs =  await _unitOfWork.Jobs.GetAllAsync();
+                IEnumerable<Job> jobs =  await _unitOfWork.Jobs.GetAllAsync(x=>x.IsDeleted == false);
                 if (jobs.Count() == 0)
                 {
                     _response.StatusCode = HttpStatusCode.NoContent;
