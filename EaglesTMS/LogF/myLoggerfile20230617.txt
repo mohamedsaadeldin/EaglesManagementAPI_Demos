@@ -1,3 +1,0 @@
-2023-06-17 16:44:32.106 +03:00 [ERR] Failed executing DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
-INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20230617134421_SensorTblUpdate', N'7.0.5');
