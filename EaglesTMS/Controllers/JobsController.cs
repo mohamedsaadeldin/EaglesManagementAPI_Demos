@@ -28,7 +28,7 @@ namespace EaglesTMS.Controllers
         {
             try
             {
-                IEnumerable<Job> jobs =  await _unitOfWork.Jobs.GetAllAsync(x=>x.IsDeleted == false);
+                IEnumerable<Job> jobs = await _unitOfWork.Jobs.GetAllAsync(x => x.IsDeleted == false);
                 if (jobs.Count() == 0)
                 {
                     _response.StatusCode = HttpStatusCode.NoContent;
@@ -47,6 +47,48 @@ namespace EaglesTMS.Controllers
             }
             return _response;
         }
+
+        [HttpGet("Search")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<APIResponse>> Search(string searchQuery)
+        {
+            try
+            {
+                IEnumerable<Job> jobs;
+
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    jobs = await _unitOfWork.Jobs.GetAllAsync(x => x.IsDeleted == false && x.JobName.Contains(searchQuery));
+                }
+                else
+                {
+                    jobs = await _unitOfWork.Jobs.GetAllAsync(x => x.IsDeleted == false);
+                }
+
+                if (!jobs.Any())
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "No Jobs Found." };
+                    return BadRequest(_response);
+                }
+
+                _response.Result = _mapper.Map<List<JobDto>>(jobs);
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+
+            return _response;
+        }
+
         [HttpGet("IsDeleted")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

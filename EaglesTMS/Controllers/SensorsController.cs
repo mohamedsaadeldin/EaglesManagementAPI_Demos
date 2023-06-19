@@ -50,6 +50,47 @@ namespace EaglesTMS.Controllers
             return _response;
         }
 
+        [HttpGet("Search")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<APIResponse>> Search(string searchQuery)
+        {
+            try
+            {
+                IEnumerable<Sensor> sensors;
+
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    sensors = await _unitOfWork.Sensors.GetAllAsync(x => x.IsDeleted == false && x.TypeName.Contains(searchQuery));
+                }
+                else
+                {
+                    sensors = await _unitOfWork.Sensors.GetAllAsync(x => x.IsDeleted == false);
+                }
+
+                if (!sensors.Any())
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "No Jobs Found." };
+                    return BadRequest(_response);
+                }
+
+                _response.Result = _mapper.Map<List<SensorDto>>(sensors);
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+
+            return _response;
+        }
+
         [HttpGet("IsDeleted")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -196,7 +237,7 @@ namespace EaglesTMS.Controllers
                     _response.ErrorMessages = new List<string>() { "Invalid Id." };
                     return BadRequest(_response);
                 }
-                var deleted = await _unitOfWork.Jobs.GetFirstOrDefaultAsync(x => x.Id == id);
+                var deleted = await _unitOfWork.Sensors.GetFirstOrDefaultAsync(x => x.Id == id);
                 if (deleted == null)
                 {
                     _response.StatusCode = HttpStatusCode.NotFound;
