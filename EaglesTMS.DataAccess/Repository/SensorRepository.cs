@@ -1,11 +1,4 @@
-﻿using EaglesTMS.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EaglesTMS.DataAccess.Repository
+﻿namespace EaglesTMS.DataAccess.Repository
 {
     public class SensorRepository : Repository<Sensor>, ISensorRepository
     {
@@ -15,7 +8,21 @@ namespace EaglesTMS.DataAccess.Repository
             _context = db;
         }
 
-        public async Task UpdateSensor(Sensor sensorTybe)
+        public async Task DeleteSensorAsync(Sensor sensorTybe)
+        {
+            sensorTybe.IsDeleted = true;
+            _context.Sensors.Update(sensorTybe);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RestoreSensorAsync(Sensor sensorTybe)
+        {
+            sensorTybe.IsDeleted = false;
+            _context.Sensors.Update(sensorTybe);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateSensorAsync(Sensor sensorTybe)
         {
             _context.Update(sensorTybe);
             await _context.SaveChangesAsync();

@@ -18,6 +18,13 @@ namespace EaglesTMS.DataAccess.Repository
             await _context.SaveChangesAsync();
         }
 
+        public async Task RestoreJobAsync(Job job)
+        {
+            job.IsDeleted = false;
+            _context.Jobs.Update(job);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task UpdateJobAsync(Job job)
         {
             _context.Update(job);

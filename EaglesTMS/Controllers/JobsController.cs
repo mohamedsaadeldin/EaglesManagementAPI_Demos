@@ -19,7 +19,7 @@ namespace EaglesTMS.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("AllJob")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -47,8 +47,36 @@ namespace EaglesTMS.Controllers
             }
             return _response;
         }
+        [HttpGet("IsDeleted")]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<APIResponse>> GetAllJobDeleted()
+        {
+            try
+            {
+                IEnumerable<Job> jobs =  await _unitOfWork.Jobs.GetAllAsync(x=>x.IsDeleted == true);
+                if (jobs.Count() == 0)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "No Jobs Found." };
+                    return BadRequest(_response);
+                }
+                _response.Result = _mapper.Map<List<JobDto>>(jobs);
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
 
-        [HttpGet("{id:int}", Name = "GetJob")]
+        [HttpGet("GetJob", Name = "GetJob")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -84,7 +112,7 @@ namespace EaglesTMS.Controllers
             return _response;
         }
 
-        [HttpPost]
+        [HttpPost("AddJob")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -119,7 +147,7 @@ namespace EaglesTMS.Controllers
             return _response;
         }
 
-        [HttpPut]
+        [HttpPut("UpdateJob")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -150,24 +178,62 @@ namespace EaglesTMS.Controllers
             return _response;
         }
 
-        //================To Do===================
-
-        [HttpPut("{id:int}", Name = "IsDeleted")]
-        public async Task<ActionResult<APIResponse>> DeleteJob(int id, [FromBody] DeleteJobDto model)
+        [HttpPut("DeletedJob")]
+        public async Task<ActionResult<APIResponse>> DeleteJob(int id)
         {
             try
             {
-                if (model == null || id != model.Id)
+                if (id == 0)
                 {
-                    ModelState.AddModelError("ErrorMessages", "Sensor ID is Invalid!");
-                    return BadRequest(ModelState);
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Invalid Id." };
+                    return BadRequest(_response);
                 }
-                if (!ModelState.IsValid)
+                var deleted = await _unitOfWork.Jobs.GetFirstOrDefaultAsync(x => x.Id == id);
+                if (deleted == null)
                 {
-                    return BadRequest(model);
+                    _response.StatusCode = HttpStatusCode.NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "ID Not Found." };
+                    return BadRequest(_response);
                 }
-                Job job = _mapper.Map<Job>(model);
+                Job job = _mapper.Map<Job>(deleted);
                 await _unitOfWork.Jobs.DeleteJobAsync(job);
+                _response.StatusCode = HttpStatusCode.NoContent;
+                _response.IsSuccess = true;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpPut("RestoreDeletedJob")]
+        public async Task<ActionResult<APIResponse>> RestoreDeleteJob(int id)
+        {
+            try
+            {
+                if (id == 0)
+                {
+                    _response.StatusCode = HttpStatusCode.NoContent;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "Invalid Id." };
+                    return BadRequest(_response);
+                }
+                var restore = await _unitOfWork.Jobs.GetFirstOrDefaultAsync(x => x.Id == id);
+                if (restore == null)
+                {
+                    _response.StatusCode = HttpStatusCode.NotFound;
+                    _response.IsSuccess = false;
+                    _response.ErrorMessages = new List<string>() { "ID Not Found." };
+                    return BadRequest(_response);
+                }
+                Job job = _mapper.Map<Job>(restore);
+                await _unitOfWork.Jobs.RestoreJobAsync(job);
                 _response.StatusCode = HttpStatusCode.NoContent;
                 _response.IsSuccess = true;
                 return Ok(_response);

@@ -6,5 +6,6 @@ namespace EaglesTMS.DataAccess.Repository.IRepository
     {
         Task UpdateJobAsync(Job job);
         Task DeleteJobAsync(Job job);
+        Task RestoreJobAsync(Job job);
     }
 }
