@@ -1,7 +1,4 @@
-﻿
-
-using EaglesTMS.Models.DTO;
-using EaglesTMS.Models.DTO.JobDto;
+﻿using EaglesTMS.Models.DTO.JobDto;
 using EaglesTMS.Models.DTO.SensorTybeDto;
 
 namespace EaglesTMS.Utility

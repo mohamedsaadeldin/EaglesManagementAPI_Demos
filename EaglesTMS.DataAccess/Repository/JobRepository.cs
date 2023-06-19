@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-
-namespace EaglesTMS.DataAccess.Repository
+﻿namespace EaglesTMS.DataAccess.Repository
 {
     public class JobRepository : Repository<Job>, IJobRepository
     {

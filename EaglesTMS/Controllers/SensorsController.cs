@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using EaglesTMS.Models;
-using EaglesTMS.Models.DTO.JobDto;
 using EaglesTMS.Models.DTO.SensorTybeDto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
