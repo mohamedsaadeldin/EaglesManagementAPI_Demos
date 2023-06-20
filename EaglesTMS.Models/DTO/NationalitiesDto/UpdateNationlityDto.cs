@@ -1,9 +1,11 @@
 ﻿namespace EaglesTMS.Models.DTO.NationalitiesDto
 {
-    public class CreateNationalityDto
+    public class UpdateNationlityDto
     {
         [Required]
-        [MaxLength(2), MinLength(2)]
+        public int Id { get; set; }
+        [Required]
+        [MaxLength(2),MinLength(2)]
         public string iso { get; set; }
         [Required]
         public string name { get; set; }

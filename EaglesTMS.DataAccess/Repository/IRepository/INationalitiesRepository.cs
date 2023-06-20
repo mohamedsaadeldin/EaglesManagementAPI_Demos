@@ -2,5 +2,6 @@
 {
     public interface INationalitiesRepository : IRepository<Nationalities>
     {
+        Task UpdateNationalityAsync(Nationalities nationalities);
     }
 }

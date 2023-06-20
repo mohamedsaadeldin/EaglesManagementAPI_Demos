@@ -19,6 +19,7 @@ namespace EaglesTMS.Utility
 
             CreateMap<NationalityDto, Nationalities>().ReverseMap();
             CreateMap<CreateNationalityDto, Nationalities>().ReverseMap();
+            CreateMap<UpdateNationlityDto, Nationalities>().ReverseMap();
 
         }
     }

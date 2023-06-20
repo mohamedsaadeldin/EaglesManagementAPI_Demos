@@ -53,10 +53,11 @@ namespace EaglesTMS.Controllers
             try
             {
                 IEnumerable<Nationalities> nationalities;
-
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    nationalities = await _unitOfWork.Nationalities.GetAllAsync(searchQuery);
+                    nationalities = await _unitOfWork.Nationalities.GetAllAsync(
+                        x => x.iso.Contains(searchQuery) || x.name.Contains(searchQuery)
+                    );
                 }
                 else
                 {
@@ -183,6 +184,37 @@ namespace EaglesTMS.Controllers
                 _response.IsSuccess = false;
                 _response.ErrorMessages
                      = new List<string>() { ex.ToString() };
+            }
+            return _response;
+        }
+
+        [HttpPut("UpdateNationality")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> UpdateNationality(int id, [FromBody] UpdateNationlityDto model)
+        {
+            try
+            {
+                if (model == null || id != model.Id)
+                {
+                    ModelState.AddModelError("ErrorMessages", "National ID is Invalid!");
+                    return BadRequest(ModelState);
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(model);
+                }
+                Nationalities nationalities = _mapper.Map<Nationalities>(model);
+                await _unitOfWork.Nationalities.UpdateNationalityAsync(nationalities);
+                _response.StatusCode = HttpStatusCode.NoContent;
+                _response.IsSuccess = true;
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string>() { ex.ToString() };
             }
             return _response;
         }
