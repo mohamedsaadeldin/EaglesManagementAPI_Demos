@@ -3,7 +3,7 @@
     public interface IUnitOfWork
     {
         IApplicationUserRepository ApplicationUser { get; }
-        INationalitiesRepository Nationalities { get; }
+        INationalitiesRepository Nationalities { get; } 
         IJobRepository Jobs { get; }
         ISensorRepository Sensors { get; }
     }

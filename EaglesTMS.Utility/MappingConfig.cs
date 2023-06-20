@@ -1,4 +1,5 @@
 ﻿using EaglesTMS.Models.DTO.JobDto;
+using EaglesTMS.Models.DTO.NationalitiesDto;
 using EaglesTMS.Models.DTO.SensorTybeDto;
 
 namespace EaglesTMS.Utility
@@ -15,6 +16,10 @@ namespace EaglesTMS.Utility
             CreateMap<SensorDto, Sensor>().ReverseMap();
             CreateMap<CreateSensorDto, Sensor>().ReverseMap();
             CreateMap<UpdateSensorDto, Sensor>().ReverseMap();
+
+            CreateMap<NationalityDto, Nationalities>().ReverseMap();
+            CreateMap<CreateNationalityDto, Nationalities>().ReverseMap();
+
         }
     }
 }

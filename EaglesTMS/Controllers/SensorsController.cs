@@ -18,6 +18,7 @@ namespace EaglesTMS.Controllers
             _response = new APIResponse();
             _mapper = mapper;
         }
+
         [HttpGet("GetAllSensor")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -117,7 +118,7 @@ namespace EaglesTMS.Controllers
             return _response;
         }
 
-        [HttpGet("GetJob", Name = "GetSensor")]
+        [HttpGet("GetSensor", Name = "GetSensor")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
