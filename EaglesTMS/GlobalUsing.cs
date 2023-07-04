@@ -4,6 +4,10 @@ global using EaglesTMS.DataAccess.Repository.IRepository;
 global using EaglesTMS.DataAccess.Repository;
 global using EaglesTMS.Models;
 global using EaglesTMS.Utility;
+global using AutoMapper;
+global using EaglesTMS.Models.DTO.JobDto;
+global using Microsoft.AspNetCore.Mvc;
+global using System.Net;
 
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;

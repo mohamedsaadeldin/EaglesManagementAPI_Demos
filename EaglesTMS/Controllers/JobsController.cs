@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using EaglesTMS.Models.DTO.JobDto;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-
-namespace EaglesTMS.Controllers
+﻿namespace EaglesTMS.Controllers
 {
     [Route("api/Jobs")]
     [ApiController]
